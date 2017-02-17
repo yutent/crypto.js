@@ -2,6 +2,19 @@
 > 本模块是对原生的`crypto`模块二次封装的，在使用上更加简单方便。
 
 
+## 安装
+
+1. 使用npm安装
+```bash
+npm install crypto.js
+```
+
+2. 从github获取
+```bash
+git clone https://github.com/yutent/crypto.js.git
+```
+
+
 ## 属性
 > 其实就一个属性，即 `crypto`，即为原生的`crypto`对象，方便在封装的方法中无法满足需求时，可以自行调用原生的`crypto`实现。
 
