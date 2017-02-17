@@ -4,12 +4,14 @@
 
 ## 安装
 
-1. 使用npm安装
+- 使用npm安装
+
 ```bash
 npm install crypto.js
 ```
 
-2. 从github获取
+- 从github获取
+
 ```bash
 git clone https://github.com/yutent/crypto.js.git
 ```
