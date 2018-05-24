@@ -18,12 +18,12 @@ git clone https://github.com/yutent/crypto.js.git
 
 
 ## 属性
-> 其实就一个属性，即 `crypto`，即为原生的`crypto`对象，方便在封装的方法中无法满足需求时，可以自行调用原生的`crypto`实现。
+> 其实就一个属性，即 `origin`，即为原生的`crypto`对象，方便在封装的方法中无法满足需求时，可以自行调用原生的`crypto`实现。
 
 ## 常用API方法
 > 对使用频率非常高的几种加密/编码进行更加简便的封装。
 
-### 1. rand(len[, forceNum])
+### rand(len[, forceNum])
 - len `<Number>`
 - forceNum `<Boolean>` 可选
 
@@ -37,8 +37,18 @@ crypto.rand(6,  true) // 439875
 crypto.rand(10, true) // 3458765234
 ```
 
+### uuid()
+> 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
 
-### 2. md5(str[, encode])
+```javascript
+let crypto = require('crypto.js')
+crypto.uuid() // 
+
+```
+
+
+
+### md5(str[, encode])
 - str `<Number>` | `<String>`
 - encode `<String>` 可选
 
@@ -52,7 +62,7 @@ crypto.md5('hello world', 'base64') // XrY7u+Ae7tCTyyK7j1rNww==
 ```
 
 
-### 3. md5Sign(file)
+### md5Sign(file)
 - file `<String>`
 
 > 该方法用于计算文件的md5签名，`file`即为文件的绝对路径。
@@ -62,7 +72,7 @@ crypto.md5Sign('xx.jpg')
 ```
 
 
-### 4. sha1(str[, encode])
+### sha1(str[, encode])
 - str `<Number>` | `<String>`
 - encode `<String>` 可选
 
@@ -76,7 +86,7 @@ crypto.sha1('hello world', 'base64') // Kq5sNclPz7QV2+lfQIuc6R7oRu0=
 ```
 
 
-### 5. sha1Sign(file)
+### sha1Sign(file)
 - file `<String>`
 
 > 该方法用于计算文件的sha1签名，`file`即为文件的绝对路径。
@@ -86,7 +96,7 @@ crypto.sha1Sign('xx.jpg')
 ```
 
 
-### 6. sha256(str[, encode])
+### sha256(str[, encode])
 - str `<Number>` | `<String>`
 - encode `<String>` 可选
 
@@ -94,7 +104,7 @@ crypto.sha1Sign('xx.jpg')
 
 
 
-### 7. base64encode(str[, urlFriendly])
+### base64encode(str[, urlFriendly])
 - str `<Number>` | `<String>` | `<Buffer>`
 - urlFriendly `<Boolean>` 可选
 
@@ -107,7 +117,7 @@ crypto.base64encode('hello world') //aGVsbG8gd29ybGQ=
 
 
 
-### 8. base64decode(str[, urlFriendly])
+### base64decode(str[, urlFriendly])
 - str `<String>`
 - urlFriendly `<Boolean>` 可选
 
