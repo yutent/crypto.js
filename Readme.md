@@ -42,7 +42,7 @@ crypto.rand(10, true) // 3458765234
 
 ```javascript
 let crypto = require('crypto.js')
-crypto.uuid() // 
+crypto.uuid() // 076d029f-4927-ec5f-5b06e35e
 
 ```
 
