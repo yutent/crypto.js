@@ -11,6 +11,8 @@ const FS = require('fs')
 
 module.exports = {
   origin: CRYPTO,
+  __stamp__: '',
+  __inc__: 0,
 
   hash(mode, data, outEncode) {
     let sum = CRYPTO.createHash(mode)
@@ -97,10 +99,17 @@ module.exports = {
   // 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
   uuid() {
     let rand = CRYPTO.randomBytes(8).toString('hex')
-    let stamp = ((Date.now() / 1000) >>> 0).toString(16)
+    let now = (Date.now() / 1000).toString(16).slice(0, 8)
+    if (this.__stamp__ === now) {
+      this.__inc__++
+    } else {
+      this.__stamp__ = now
+      this.__inc__ = 0
+    }
+    rand = this.__inc__.toString(16) + rand
 
-    rand = rand.replace(/^([0-9a-z]{4})([0-9a-z]{4})([0-9a-z]{8})$/, '$1-$2-$3')
-    return stamp + '-' + rand
+    rand = rand.slice(0, 4) + '-' + rand.slice(4, 8) + '-' + rand.slice(8, 16)
+    return this.__stamp__ + '-' + rand
   },
 
   /**
