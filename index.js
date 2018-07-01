@@ -100,7 +100,7 @@ module.exports = {
     let stamp = ((Date.now() / 1000) >>> 0).toString(16)
 
     rand = rand.replace(/^([0-9a-z]{4})([0-9a-z]{4})([0-9a-z]{8})$/, '$1-$2-$3')
-    return stam + '-' + prand
+    return stamp + '-' + rand
   },
 
   /**
