@@ -188,13 +188,11 @@ module.exports = {
     }
     let encode = str.toString('base64')
     if (urlFriendly) {
-      encode = encode
-        .replace(/[+\/]/g, m => {
-          return m === '+' ? '-' : '_'
-        })
+      return encode
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
         .replace(/=/g, '')
     }
-
     return encode
   },
 
@@ -207,9 +205,8 @@ module.exports = {
   base64decode(str, urlFriendly, encoding) {
     if (urlFriendly) {
       str = str
-        .replace(/[-_]/g, m => {
-          return m === '-' ? '+' : '/'
-        })
+        .replace(/-/g, '+')
+        .replace(/_/g, '/')
         .replace(/[^A-Za-z0-9\+\/]/g, '')
     }
 
