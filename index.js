@@ -118,11 +118,14 @@ module.exports = {
    * @param  {Str} encode [hex/base64]
    */
   md5(str, encode) {
-    if (typeof str !== 'string' && typeof str !== 'number') {
+    if (typeof str === 'number') {
+      str += ''
+    }
+    if (typeof str !== 'string' && !Buffer.isBuffer(str)) {
       return str
     }
 
-    return this.hash('md5', str + '', encode)
+    return this.hash('md5', str, encode)
   },
 
   /**
@@ -144,11 +147,14 @@ module.exports = {
    * @param  {Str} encode [hex/base64]
    */
   sha1(str, encode) {
-    if (typeof str !== 'string' && typeof str !== 'number') {
+    if (typeof str === 'number') {
+      str += ''
+    }
+    if (typeof str !== 'string' && !Buffer.isBuffer(str)) {
       return str
     }
 
-    return this.hash('sha1', str + '', encode)
+    return this.hash('sha1', str, encode)
   },
 
   /**
@@ -170,11 +176,14 @@ module.exports = {
    * @param  {Str} encoding [hex/base64]
    */
   sha256(str, encoding) {
-    if (typeof str !== 'string' && typeof str !== 'number') {
+    if (typeof str === 'number') {
+      str += ''
+    }
+    if (typeof str !== 'string' && !Buffer.isBuffer(str)) {
       return str
     }
 
-    return this.hash('sha256', str + '', encoding)
+    return this.hash('sha256', str, encoding)
   },
 
   /**
