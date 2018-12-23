@@ -133,11 +133,11 @@ module.exports = {
    * @param  {Str} file [文件路径]
    */
   md5Sign(file) {
-    if (!fs.existsSync(file)) {
+    if (!FS.existsSync(file)) {
       return null
     }
 
-    let fileStream = fs.readFileSync(file)
+    let fileStream = FS.readFileSync(file)
     return this.hash('md5', fileStream)
   },
 
@@ -162,11 +162,11 @@ module.exports = {
    * @param  {Str} file [文件路径]
    */
   sha1Sign(file) {
-    if (!fs.existsSync(file)) {
+    if (!FS.existsSync(file)) {
       return null
     }
 
-    let fileStream = fs.readFileSync(file)
+    let fileStream = FS.readFileSync(file)
     return this.hash('sha1', fileStream)
   },
 
