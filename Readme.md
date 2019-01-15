@@ -173,7 +173,7 @@ crypto.hmac('md5', '123456', 'sdfvkjfhd')
 > 在上面的2种算法中，加密都是不可逆的，也就是说，加密后的字符，我们是没办法再还原回去了，但是有很多场景，需要我们对拿到的加密字符，还原到明文状态。
 > 所以出现了公钥加密这种算法; 而`Node.js`本身给我们提供了4种与公钥加密相关的类：`Cipher/Decipher、Sign、Verify`，这里只讲前面2个，以及它们衍生出来的`Cipheriv/Decipheriv`;
 
-#### cipher(mode, data[, key][, inEncode][, outEncode])
+#### cipher(mode, data[, key, inEncode, outEncode])
 - mode `<String>`
 - data `<String>` | `<Buffer>`
 - key `<String>` 可选
@@ -182,24 +182,32 @@ crypto.hmac('md5', '123456', 'sdfvkjfhd')
 
 > `mode`为算法类型，常见的有`aes-128-cbc、aes-128-gcm`等等地，很多，具体有哪些可以通过 `this.crypto.getCiphers()` 来查看。
 > 其他的参数与上面的HMAC算法相似; `inEncode`即声明要加密的数据是什么编码的，默认根据要加密的数据进行判断。
+>> 需要注意的是, 算法类型为`aes-***-gcm`时, 返回的不是一个字符串, 而是一个对象{ enStr, authTag }, 解密时, 需要提供这个 authTag方可解密
 
 ```javascript
-//这里给出一个AES-128-CBC的加密例子
-// 
+// 这里给出一个AES-128-CBC的加密例子
+
 crypto.cipher('aes-128-cbc', '123456', 'abcdefg')
-//mqA9ZPh9VV+fwKlfpicGVg==
+// mqA9ZPh9VV+fwKlfpicGVg==
 
 crypto.cipher('aes-128-cbc', '123456', 'abcdefg', 'utf8', 'hex')
-//9aa03d64f87d555f9fc0a95fa6270656
+// 9aa03d64f87d555f9fc0a95fa6270656
+
+// 要注意gcm算法的结果
+crypto.cipher('aes-128-gcm', '123456', 'abcdefg')
+// { enStr: 'qmo1a4Jz',
+//   authTag: <Buffer c4 a0 3e ab e5 34 a0 ea 25 02 f0 91 06 f7 3b dd> 
+// }
 
 ```
 
 
 
-#### decipher(mode, data[, key][, inEncode][, outEncode])
+#### decipher(mode, data[, key, tag, inEncode, outEncode])
 - mode `<String>`
 - data `<String>` | `<Buffer>`
 - key `<String>` 可选
+- tag `<Buffer>` 可选(mode为gcm算法时必填)
 - inEncode '<String>' 可选, 默认是base64
 - outEncode '<String>' 可选，默认utf8
 
@@ -212,9 +220,18 @@ crypto.decipher('aes-128-cbc', 'mqA9ZPh9VV+fwKlfpicGVg==', 'abcdefg')
 
 // 这里一定要指定，因为之前加密的时候，指定输出为hex，所以这里也要指定输入的是hex编码
 crypto.decipher('aes-128-cbc', '9aa03d64f87d555f9fc0a95fa6270656', 'abcdefg', 'hex')
-//123456
+// 123456
+
+
+
+// 要注意gcm算法的结果
+// authTag: <Buffer c4 a0 3e ab e5 34 a0 ea 25 02 f0 91 06 f7 3b dd> 
+crypto.decipher('aes-128-gcm', 'qmo1a4Jz', 'abcdefg', authTag)
+// 123456
+
 
 ```
 
 
-> 至于另外的`cipheriv/decipheriv`这2个方法，这里就不细讲了，和上面的这2个是同样的用法，只是要多1个参数`向量(iv)`, **`特别要注意的一点是，选择128位的加密算法，那key的长度就必须是16位，256则是32位，依此类推; 向量iv是16位`，具体的请看相关文档**
+> 至于另外的`cipheriv/decipheriv`这2个方法，这里就不细讲了，和上面的这2个是同样的用法，只是要多1个参数`向量(iv)`
+>> **`特别要注意的一点是，选择128位的加密算法，那key的长度就必须是16位，256则是32位，依此类推; 算法类型为gcm时,返回的是对象,解密时需要提供authTag `，具体的请看相关文档**

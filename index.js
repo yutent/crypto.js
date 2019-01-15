@@ -8,6 +8,7 @@
 
 const CRYPTO = require('crypto')
 const FS = require('fs')
+const GCM_MODE = ['aes-128-gcm', 'aes-192-gcm', 'aes-256-gcm']
 
 module.exports = {
   origin: CRYPTO,
@@ -37,20 +38,29 @@ module.exports = {
     inEncode = isBuffer ? 'binary' : inEncode || 'utf8'
     outEncode = outEncode || 'base64'
 
-    let cp = CRYPTO.createCipher(mode, key)
-    let res = cp.update(data, inEncode, outEncode)
-    return res + cp.final(outEncode)
+    let cc = CRYPTO.createCipher(mode, key)
+    let enStr = cc.update(data, inEncode, outEncode)
+    enStr += cc.final(outEncode)
+    if (GCM_MODE.indexOf(mode) > -1) {
+      let authTag = cc.getAuthTag()
+      return { enStr: enStr, authTag: authTag }
+    }
+    return enStr
   },
 
-  decipher(mode, data, key, inEncode, outEncode) {
+  decipher(mode, data, key, tag, inEncode, outEncode) {
     key = key || ''
     let isBuffer = Buffer.isBuffer(data)
     inEncode = isBuffer ? 'binary' : inEncode || 'base64'
     outEncode = outEncode || 'utf8'
 
-    let dcp = CRYPTO.createDecipher(mode, key)
-    let res = dcp.update(data, inEncode, outEncode)
-    return res + dcp.final(outEncode)
+    let cd = CRYPTO.createDecipher(mode, key)
+    if (GCM_MODE.indexOf(mode) > -1) {
+      cd.setAuthTag(tag)
+    }
+    let deStr = cd.update(data, inEncode, outEncode)
+    deStr += cd.final(outEncode)
+    return deStr
   },
 
   cipheriv(mode, data, key, iv, inEncode, outEncode) {
@@ -60,21 +70,30 @@ module.exports = {
     inEncode = isBuffer ? 'binary' : inEncode || 'utf8'
     outEncode = outEncode || 'base64'
 
-    let cp = CRYPTO.createCipheriv(mode, key, iv)
-    let res = cp.update(data, inEncode, outEncode)
-    return res + cp.final(outEncode)
+    let cciv = CRYPTO.createCipheriv(mode, key, iv)
+    let enStr = cciv.update(data, inEncode, outEncode)
+    enStr += cciv.final(outEncode)
+    if (GCM_MODE.indexOf(mode) > -1) {
+      let authTag = cciv.getAuthTag()
+      return { enStr: enStr, authTag: authTag }
+    }
+    return enStr
   },
 
-  decipheriv(mode, data, key, iv, inEncode, outEncode) {
+  decipheriv(mode, data, key, iv, tag, inEncode, outEncode) {
     key = key || '0000000000000000'
     iv = iv || ''
     let isBuffer = Buffer.isBuffer(data)
     inEncode = isBuffer ? 'binary' : inEncode || 'base64'
     outEncode = outEncode || 'utf8'
 
-    let dcp = CRYPTO.createDecipheriv(mode, key, iv)
-    let res = dcp.update(data, inEncode, outEncode)
-    return res + dcp.final(outEncode)
+    let dcpiv = CRYPTO.createDecipheriv(mode, key, iv)
+    if (GCM_MODE.indexOf(mode) > -1) {
+      dcpiv.setAuthTag(tag)
+    }
+    let deStr = dcpiv.update(data, inEncode, outEncode)
+    deStr += dcpiv.final(outEncode)
+    return deStr
   },
 
   /**
