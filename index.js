@@ -211,10 +211,11 @@ module.exports = {
    * @param  {bool} urlFriendly [是否对URL友好，默认否，是则会把+转成-，/转成_]
    */
   base64encode(str, urlFriendly) {
+    let buf
     if (!Buffer.isBuffer(str)) {
-      str = Buffer.from(str + '')
+      buf = Buffer.from(str + '')
     }
-    let encode = str.toString('base64')
+    let encode = buf.toString('base64')
     if (urlFriendly) {
       return encode
         .replace(/\+/g, '-')
@@ -225,10 +226,9 @@ module.exports = {
   },
 
   /**
-   * [base64decode base64解密]
+   * [base64decode base64解密, 返回Buffer对象]
    * @param  {Str} str         [要解密的字符串]
    * @param  {bool} urlFriendly [之前是否对结果采用了URL友好处理]
-   * @param  {Str/Buffer} encoding    [编码，默认utf-8]
    */
   base64decode(str, urlFriendly, encoding) {
     if (urlFriendly) {
@@ -238,12 +238,6 @@ module.exports = {
         .replace(/[^A-Za-z0-9\+\/]/g, '')
     }
 
-    let buff = Buffer.from(str, 'base64')
-
-    if (encoding === 'buffer') {
-      return buff
-    }
-
-    return buff.toString(encoding || 'ascii')
+    return Buffer.from(str, 'base64')
   }
 }

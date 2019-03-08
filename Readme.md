@@ -117,15 +117,14 @@ crypto.base64encode('hello world') //aGVsbG8gd29ybGQ=
 
 
 
-### base64decode(str[, urlFriendly][, outEncode])
+### base64decode(str[, urlFriendly])
 - str `<String>`
 - urlFriendly `<Boolean>` 可选
-- outEncode `<String>` 可选，默认ascii, 如果之前的编码的字符串带有中文等字符,请设置为utf8等
 
-> 与之对应的，便是这个base解码了。同样`urlFriendly`是指要解码的字符串之前是否采用了URL友好处理，默认否。
+> base64解码, 返回Buffer对象。同样`urlFriendly`是指要解码的字符串之前是否采用了URL友好处理，默认否。
 
 ```javascript
-crypto.base64decode('aGVsbG8gd29ybGQ=') //hello world
+crypto.base64decode('aGVsbG8gd29ybGQ=')//  .toString('utf-8')  === hello world
 
 ```
 
