@@ -109,18 +109,17 @@ module.exports = {
     let max = str.length
     let tmp = ''
     for (let i = 0; i < len; i++) {
-      let r = Math.floor(Math.random() * max)
+      let r = (Math.random() * max) >> 0
       tmp += str[r]
     }
     return tmp
   },
 
   // 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
-  uuid(line = true) {
+  uuid(pipe = '-') {
     let rand = CRYPTO.randomBytes(8).toString('hex')
     let now = (Date.now() / 1000).toString(16).slice(0, 8)
 
-    let pipe = line ? '-' : ''
     if (this.__stamp__ === now) {
       this.__inc__++
     } else {
