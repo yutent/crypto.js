@@ -116,9 +116,11 @@ module.exports = {
   },
 
   // 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
-  uuid() {
+  uuid(line = true) {
     let rand = CRYPTO.randomBytes(8).toString('hex')
     let now = (Date.now() / 1000).toString(16).slice(0, 8)
+
+    let pipe = line ? '-' : ''
     if (this.__stamp__ === now) {
       this.__inc__++
     } else {
@@ -127,8 +129,15 @@ module.exports = {
     }
     rand = this.__inc__.toString(16) + rand
 
-    rand = rand.slice(0, 4) + '-' + rand.slice(4, 8) + '-' + rand.slice(8, 16)
-    return this.__stamp__ + '-' + rand
+    return (
+      this.__stamp__ +
+      pipe +
+      rand.slice(0, 4) +
+      pipe +
+      rand.slice(4, 8) +
+      pipe +
+      rand.slice(8, 16)
+    )
   },
 
   /**
@@ -203,6 +212,19 @@ module.exports = {
     }
 
     return this.hash('sha256', str, encoding)
+  },
+
+  /**
+   * [sha256Sign 获取文件的sha256签名]
+   * @param  {Str} file [文件路径]
+   */
+  sha256Sign(file) {
+    if (!FS.existsSync(file)) {
+      return null
+    }
+
+    let fileStream = FS.readFileSync(file)
+    return this.hash('sha256', fileStream)
   },
 
   /**

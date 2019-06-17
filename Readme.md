@@ -65,7 +65,7 @@ crypto.md5('hello world', 'base64') // XrY7u+Ae7tCTyyK7j1rNww==
 ### md5Sign(file)
 - file `<String>`
 
-> 该方法用于计算文件的md5签名，`file`即为文件的绝对路径。
+> 该方法用于计算文件的md5签名，`file`即为文件的路径。
 
 ```javascript
 crypto.md5Sign('xx.jpg')
@@ -89,7 +89,7 @@ crypto.sha1('hello world', 'base64') // Kq5sNclPz7QV2+lfQIuc6R7oRu0=
 ### sha1Sign(file)
 - file `<String>`
 
-> 该方法用于计算文件的sha1签名，`file`即为文件的绝对路径。
+> 该方法用于计算文件的sha1签名，`file`即为文件的路径。
 
 ```javascript
 crypto.sha1Sign('xx.jpg')
@@ -101,6 +101,13 @@ crypto.sha1Sign('xx.jpg')
 - encode `<String>` 可选
 
 > 自然这方法，也没啥好说的了。
+
+
+### sha256Sign(file)
+- file `<String>`
+
+> 都懂的。
+
 
 
 
