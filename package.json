@@ -1,14 +1,25 @@
 {
   "name": "crypto.js",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "原生crypto加密模块的二次封装,简化常用加密函数的使用",
-  "keywords": ["md5", "sha1", "base64", "fivejs", "crypto"],
-  "author": "yutent <yutent@doui.cc>",
+  "keywords": [
+    "md5",
+    "sha1",
+    "sha256",
+    "hmac",
+    "base64",
+    "fivejs",
+    "crypto",
+    "crypto-js",
+    "crypto.js"
+  ],
+  "author": "yutent <yutent.io@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/yutent/crypto.js.git"
   },
   "dependencies": {},
   "devDependencies": {},
-  "main": "index.js"
+  "main": "index.js",
+  "module": "index.es.js"
 }
