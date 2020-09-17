@@ -67,9 +67,9 @@ export function rand(len, forceNum) {
 }
 
 // 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
-export function uuid(pipe = '') {
+export function uuid(pipe = '-') {
   var rand = Helper.origin.randomBytes(8).toString('hex')
-  var now = ~~(Date.now() / 1000).toString(16)
+  var now = (~~(Date.now() / 1000)).toString(16)
   var inc
 
   if (__stamp__ === now) {

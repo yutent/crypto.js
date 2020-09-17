@@ -15,7 +15,7 @@ var __inc__ = 1024
  * @param  {Str/Num/Buffer} str         [要编码的字符串]
  * @param  {bool} urlFriendly [是否对URL友好，默认否，是则会把+转成-，/转成_]
  */
-exports.base64encode = function(str, urlFriendly) {
+Helper.base64encode = function(str, urlFriendly) {
   var buf, str64
 
   if (!Buffer.isBuffer(str)) {
@@ -37,7 +37,7 @@ exports.base64encode = function(str, urlFriendly) {
  * @param  {Str} str         [要解码的字符串]
  * @param  {bool} urlFriendly [之前是否对结果采用了URL友好处理]
  */
-exports.base64decode = function(str, urlFriendly) {
+Helper.base64decode = function(str, urlFriendly) {
   if (urlFriendly) {
     str = str
       .replace(/-/g, '+')
@@ -52,7 +52,7 @@ exports.base64decode = function(str, urlFriendly) {
  * @param  {[type]} len      [要得到的字符串长度]
  * @param  {[type]} forceNum [是否强制返回纯数字]
  */
-exports.rand = function(len, forceNum) {
+Helper.rand = function(len, forceNum) {
   let str = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
   if (forceNum) {
     str = '0123456789'
@@ -67,9 +67,9 @@ exports.rand = function(len, forceNum) {
 }
 
 // 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
-exports.uuid = function(pipe = '') {
+Helper.uuid = function(pipe = '-') {
   var rand = Helper.origin.randomBytes(8).toString('hex')
-  var now = ~~(Date.now() / 1000).toString(16)
+  var now = (~~(Date.now() / 1000)).toString(16)
   var inc
 
   if (__stamp__ === now) {
@@ -90,7 +90,7 @@ exports.uuid = function(pipe = '') {
  * @param  {Str/Num} str    [要加密的字符串]
  * @param  {Str} encode [hex/base64]
  */
-exports.md5 = function(str, encode) {
+Helper.md5 = function(str, encode) {
   if (typeof str === 'number') {
     str += ''
   }
@@ -105,7 +105,7 @@ exports.md5 = function(str, encode) {
  * [md5Sign 获取文件的md5签名]
  * @param  {Str} file [文件路径]
  */
-exports.md5Sign = function(file) {
+Helper.md5Sign = function(file) {
   if (!fs.existsSync(file)) {
     return null
   }
@@ -119,7 +119,7 @@ exports.md5Sign = function(file) {
  * @param  {Str/Num} str    [要加密的字符串]
  * @param  {Str} encode [hex/base64]
  */
-exports.sha1 = function(str, encode) {
+Helper.sha1 = function(str, encode) {
   if (typeof str === 'number') {
     str += ''
   }
@@ -134,7 +134,7 @@ exports.sha1 = function(str, encode) {
  * [sha1Sign 获取文件的sha1签名]
  * @param  {Str} file [文件路径]
  */
-exports.sha1Sign = function(file) {
+Helper.sha1Sign = function(file) {
   if (!fs.existsSync(file)) {
     return null
   }
@@ -148,7 +148,7 @@ exports.sha1Sign = function(file) {
  * @param  {Str/Num} str    [要加密的字符串]
  * @param  {Str} encoding [hex/base64]
  */
-exports.sha256 = function(str, encoding) {
+Helper.sha256 = function(str, encoding) {
   if (typeof str === 'number') {
     str += ''
   }
@@ -163,7 +163,7 @@ exports.sha256 = function(str, encoding) {
  * [sha256Sign 获取文件的sha256签名]
  * @param  {Str} file [文件路径]
  */
-exports.sha256Sign = function(file) {
+Helper.sha256Sign = function(file) {
   if (!fs.existsSync(file)) {
     return null
   }

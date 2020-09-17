@@ -4,17 +4,36 @@
 
 ## 安装
 
-- 使用npm安装
-
 ```bash
 npm install crypto.js
 ```
 
-- 从github获取
 
-```bash
-git clone https://github.com/yutent/crypto.js.git
+## 说明
+> 本模块内置2种不同的引入方式。
+
+```js
+// 1、 传统的 commonJS引入, 所有的方法都在上面
+var crypto = require('crypto.js')
+
+
+// 2、 全新的 ESM 方式
+import crypto from 'crypto.js'
+import {
+  uuid, 
+  rand, 
+  md5, 
+  md5Sign, 
+  sha1, 
+  sha1Sign,
+  sha256,
+  sha256Sign,
+  base64encode,
+  base64decode,
+} from 'crypto.js'
+
 ```
+
 
 
 ## 属性
@@ -23,11 +42,11 @@ git clone https://github.com/yutent/crypto.js.git
 ## 常用API方法
 > 对使用频率非常高的几种加密/编码进行更加简便的封装。
 
-### rand(len[, forceNum])
-- len `<Number>`
-- forceNum `<Boolean>` 可选
+### rand(len[, onlyNumber])
+- len `<Number>`  需要的字符长度
+- onlyNumber `<Boolean>` 返回纯数字字符串 [可选]
 
-> 该方法用于生成指定长度的随机字符串`[a-z-A-z0-9]`，参数`len`即为要生成的字符串长度了; 而`forceNum` 顾名思义，就是是否强制返回纯数字字符串。
+> 该方法用于生成指定长度的随机字符串`[a-z-A-z0-9]`
 
 ```javascript
 let crypto = require('crypto.js')
