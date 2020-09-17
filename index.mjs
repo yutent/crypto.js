@@ -5,7 +5,7 @@
  */
 
 import fs from 'fs'
-import Helper from './lib/helper.es7'
+import Helper from './lib/helper.mjs'
 
 var __stamp__ = ''
 var __inc__ = 1024
