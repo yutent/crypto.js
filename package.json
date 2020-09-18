@@ -16,7 +16,7 @@
   "author": "yutent <yutent.io@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yutent/crypto.js.git"
+    "url": "https://github.com/bytedo/crypto.js.git"
   },
   "dependencies": {},
   "devDependencies": {},
