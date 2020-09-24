@@ -18,9 +18,12 @@ var __inc__ = 1024
 Helper.base64encode = function(str, urlFriendly) {
   var buf, str64
 
-  if (!Buffer.isBuffer(str)) {
+  if (Buffer.isBuffer(str)) {
+    buf = str
+  } else {
     buf = Buffer.from(str + '')
   }
+
   str64 = buf.toString('base64')
 
   if (urlFriendly) {
@@ -94,11 +97,11 @@ Helper.md5 = function(str, encode) {
   if (typeof str === 'number') {
     str += ''
   }
-  if (typeof str !== 'string' && !Buffer.isBuffer(str)) {
-    return str
+  if (typeof str === 'string' || Buffer.isBuffer(str)) {
+    return Helper.hash('md5', str, encode)
   }
 
-  return Helper.hash('md5', str, encode)
+  return str
 }
 
 /**
@@ -106,12 +109,11 @@ Helper.md5 = function(str, encode) {
  * @param  {Str} file [文件路径]
  */
 Helper.md5Sign = function(file) {
-  if (!fs.existsSync(file)) {
-    return null
+  if (fs.accessSync(file, fs.constants.R_OK)) {
+    var buf = fs.readFileSync(file)
+    return Helper.hash('md5', buf)
   }
-
-  var buf = fs.readFileSync(file)
-  return Helper.hash('md5', buf)
+  return null
 }
 
 /**
@@ -123,11 +125,11 @@ Helper.sha1 = function(str, encode) {
   if (typeof str === 'number') {
     str += ''
   }
-  if (typeof str !== 'string' && !Buffer.isBuffer(str)) {
-    return str
+  if (typeof str === 'string' || Buffer.isBuffer(str)) {
+    return Helper.hash('sha1', str, encode)
   }
 
-  return Helper.hash('sha1', str, encode)
+  return str
 }
 
 /**
@@ -135,12 +137,11 @@ Helper.sha1 = function(str, encode) {
  * @param  {Str} file [文件路径]
  */
 Helper.sha1Sign = function(file) {
-  if (!fs.existsSync(file)) {
-    return null
+  if (fs.accessSync(file, fs.constants.R_OK)) {
+    var buf = fs.readFileSync(file)
+    return Helper.hash('sha1', buf)
   }
-
-  var buf = fs.readFileSync(file)
-  return Helper.hash('sha1', buf)
+  return null
 }
 
 /**
@@ -152,11 +153,11 @@ Helper.sha256 = function(str, encoding) {
   if (typeof str === 'number') {
     str += ''
   }
-  if (typeof str !== 'string' && !Buffer.isBuffer(str)) {
-    return str
+  if (typeof str === 'string' || Buffer.isBuffer(str)) {
+    return Helper.hash('sha256', str, encoding)
   }
 
-  return Helper.hash('sha256', str, encoding)
+  return str
 }
 
 /**
@@ -164,12 +165,11 @@ Helper.sha256 = function(str, encoding) {
  * @param  {Str} file [文件路径]
  */
 Helper.sha256Sign = function(file) {
-  if (!fs.existsSync(file)) {
-    return null
+  if (fs.accessSync(file, fs.constants.R_OK)) {
+    var buf = fs.readFileSync(file)
+    return Helper.hash('sha256', buf)
   }
-
-  var buf = fs.readFileSync(file)
-  return Helper.hash('sha256', buf)
+  return null
 }
 
 module.exports = Helper
