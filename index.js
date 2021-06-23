@@ -7,7 +7,8 @@
 const fs = require('fs')
 const Helper = require('./lib/helper.js')
 
-var __stamp__ = ''
+const PID = process.pid
+const PPID = process.ppid
 var __inc__ = 1024
 
 /**
@@ -75,17 +76,14 @@ Helper.uuid = function(pipe = '-') {
   var now = (~~(Date.now() / 1000)).toString(16)
   var inc
 
-  if (__stamp__ === now) {
-    __inc__++
-  } else {
-    __stamp__ = now
+  __inc__++
+  if (__inc__ > 65535) {
     __inc__ = 1024
   }
-  inc = __inc__.toString(16).padStart(4, '0')
 
-  return (
-    __stamp__ + pipe + inc + pipe + rand.slice(0, 4) + pipe + rand.slice(-8)
-  )
+  inc = (__inc__ + PID + PPID).toString(16).padStart(4, '0')
+
+  return now + pipe + inc + pipe + rand.slice(0, 4) + pipe + rand.slice(-8)
 }
 
 /**
