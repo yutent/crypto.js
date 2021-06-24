@@ -58,6 +58,8 @@ crypto.rand(10, true) // 3458765234
 
 ### uuid()
 > 返回一个如下格式的 xxxxxxxx-xxxx-xxxx-xxxxxxxx 的唯一ID
+>> 1、加入机器码, 减小不同机器生成的uuid相同的机率
+>> 2、每秒可生成20万个ID(测试机器: Intel i5-8500B@3.00GHz 16G内存)
 
 ```javascript
 let crypto = require('crypto.js')

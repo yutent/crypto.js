@@ -1,6 +1,6 @@
 {
   "name": "crypto.js",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "原生crypto加密模块的二次封装,简化常用加密函数的使用",
   "keywords": [
     "md5",

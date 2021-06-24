@@ -4,11 +4,20 @@
  * @date 2020/09/16 18:11:51
  */
 
+import os from 'os'
 import fs from 'fs'
 import Helper from './lib/helper.mjs'
 
-const PID = process.pid
-const PPID = process.ppid
+const MAC = (function(ns) {
+  for (let k in ns) {
+    let _ = ns[k].pop()
+    if (_.mac !== '00:00:00:00:00:00') {
+      return _.mac
+    }
+  }
+  return process.pid.toString(16) + process.ppid.toString(16)
+})(os.networkInterfaces())
+
 var __inc__ = 1024
 
 /**
@@ -74,23 +83,16 @@ export function rand(len, forceNum) {
 export function uuid(pipe = '-') {
   var rand = Helper.origin.randomBytes(8).toString('hex')
   var now = (~~(Date.now() / 1000)).toString(16)
-  var inc
+  var str
 
   __inc__++
   if (__inc__ > 65535) {
     __inc__ = 1024
   }
-
-  inc = (__inc__ + PID + PPID).toString(16).padStart(4, '0') + rand.slice(0, 4)
+  str = md5(MAC + rand + __inc__)
 
   return (
-    now +
-    pipe +
-    inc.slice(0, 4) +
-    pipe +
-    inc.slice(4, 8) +
-    pipe +
-    rand.slice(-8)
+    now + pipe + str.slice(0, 4) + pipe + str.slice(4, 8) + pipe + str.slice(-8)
   )
 }
 
