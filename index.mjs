@@ -81,9 +81,17 @@ export function uuid(pipe = '-') {
     __inc__ = 1024
   }
 
-  inc = (__inc__ + PID + PPID).toString(16).padStart(4, '0')
+  inc = (__inc__ + PID + PPID).toString(16).padStart(4, '0') + rand.slice(0, 4)
 
-  return now + pipe + inc + pipe + rand.slice(0, 4) + pipe + rand.slice(-8)
+  return (
+    now +
+    pipe +
+    inc.slice(0, 4) +
+    pipe +
+    inc.slice(4, 8) +
+    pipe +
+    rand.slice(-8)
+  )
 }
 
 /**
